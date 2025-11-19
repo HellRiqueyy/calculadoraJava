@@ -50,7 +50,6 @@ public class jTela extends javax.swing.JFrame {
 
         txtResult.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         txtResult.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtResult.setText("0.00");
         txtResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtResultActionPerformed(evt);
@@ -79,6 +78,11 @@ public class jTela extends javax.swing.JFrame {
 
         btnPorcetagem.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnPorcetagem.setText("%");
+        btnPorcetagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPorcetagemActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnPorcetagem);
 
         btnDiv.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -261,7 +265,7 @@ public class jTela extends javax.swing.JFrame {
     }//GEN-LAST:event_txtResultActionPerformed
 
     private void btnMaisMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaisMenosActionPerformed
-        // TODO add your handling code here:
+        txtResult.setText(String.valueOf(calculadora.change(Double.parseDouble(txtResult.getText()))));
     }//GEN-LAST:event_btnMaisMenosActionPerformed
 
     private void btnFiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiveActionPerformed
@@ -342,16 +346,25 @@ public class jTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDivActionPerformed
 
     private void btnEqualsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualsActionPerformed
+        if(txtResult.getText().isEmpty()){
+            txtResult.setText(String.valueOf(calculadora.getTotal()));
+        }else{
         calculadora.calcular(lastOp, Double.parseDouble(txtResult.getText()));
-        txtResult.setText(String.valueOf(calculadora.getTotal()));
+        txtResult.setText(String.valueOf(calculadora.getTotal()));      
+        }
     }//GEN-LAST:event_btnEqualsActionPerformed
 
+    private void btnPorcetagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorcetagemActionPerformed
+        calculadora.calcular("PERC", Double.parseDouble(txtResult.getText()));
+        clear();
+    }//GEN-LAST:event_btnPorcetagemActionPerformed
+
     private void clear() {
-        txtResult.setText("0.00");
+        txtResult.setText(null);
     }
 
     private void digit(String number) {
-        if (txtResult.getText().equals("0.00")) {
+        if (txtResult.getText().equals(null)) {
             txtResult.setText(number);
         } else {
             if (number.equals(".") && txtResult.getText().contains(".")) {
